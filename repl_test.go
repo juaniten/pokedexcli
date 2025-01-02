@@ -1,7 +1,6 @@
 package main
 
 import (
-    "fmt"
 	"testing"
 )
 
@@ -31,18 +30,26 @@ func TestCleanInput(t *testing.T) {
 			input:    "    HeLLO   hello  HELLO    WORLD       ",
 			expected: []string{"hello", "hello", "hello", "world"},
 		},
+		{
+			input:    "",
+			expected: []string{},
+		},
+		{
+			input:    "   	",
+			expected: []string{},
+		},
 	}
 
 	for _, c := range cases {
 		actual := cleanInput(c.input)
 		if len(actual) != len(c.expected) {
-			t.Errorf("lenght of output does not match expected")
+			t.Errorf("lenght of output (%v) does not match expected (%v)", len(actual), len(c.expected))
 		}
 		for i := range actual {
 			word := actual[i]
 			expectedWord := c.expected[i]
 			if word != expectedWord {
-				t.Errorf(fmt.Sprintf("%v != %v, expected %v", actual, expectedWord, expectedWord))
+				t.Errorf("%s != %s, expected %s", word, expectedWord, expectedWord)
 			}
 		}
 	}
