@@ -37,6 +37,13 @@ func main() {
 			return commandMap()
 		},
 	}
+	commands["mapb"] = cliCommand{
+		name:        "mapb",
+		description: "Display 20 previous locations",
+		callback: func() error {
+			return commandMapb()
+		},
+	}
 
 	scanner := bufio.NewScanner(os.Stdin)
 
@@ -73,5 +80,9 @@ func commandHelp(commands map[string]cliCommand) error {
 }
 
 func commandMap() error {
+	return nil
+}
+
+func commandMapb() error {
 	return nil
 }
