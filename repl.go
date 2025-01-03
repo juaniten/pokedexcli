@@ -9,14 +9,21 @@ import (
 
 func repl() {
 	scanner := bufio.NewScanner(os.Stdin)
+	urlConfig := &Config{
+		Previous: "",
+		Next:     "https://pokeapi.co/api/v2/location-area/",
+	}
+
 	for {
+		fmt.Print("\nPokedex > ")
 		scanner.Scan()
 		text := scanner.Text()
 		firstWord := strings.Fields(strings.ToLower(text))[0]
 
 		commands := getCommands()
+
 		if command, ok := commands[firstWord]; ok {
-			err := command.callback()
+			err := command.callback(urlConfig)
 			if err != nil {
 				fmt.Println(err.Error())
 			}
@@ -26,10 +33,15 @@ func repl() {
 	}
 }
 
+type Config struct {
+	Previous string
+	Next     string
+}
+
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*Config) error
 }
 
 func getCommands() map[string]cliCommand {
